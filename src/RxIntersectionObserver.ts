@@ -1,25 +1,33 @@
 import { Observable } from "rxjs";
 
 export class RxIntersectionObserver {
-  constructor(private defaultOptions?: IntersectionObserverInit) {}
+  private static defaultOptions?: IntersectionObserverInit;
 
-  observe(target: Element, options?: IntersectionObserverInit): Observable<IntersectionObserverEntry> {
-    return new Observable<IntersectionObserverEntry>(subscriber => {
+  static setDefaultOptions(defaultOptions?: IntersectionObserverInit) {
+    this.defaultOptions = defaultOptions;
+  }
+
+  static observe(target: Element, options?: IntersectionObserverInit): Observable<IntersectionObserverEntry[]>;
+  static observe(targets: Element[], options?: IntersectionObserverInit): Observable<IntersectionObserverEntry[]>;
+  static observe(targetOrTargets: Element | Element[], options?: IntersectionObserverInit): Observable<IntersectionObserverEntry[]> {
+    const targets = Array.isArray(targetOrTargets) ? targetOrTargets.slice() : [targetOrTargets];
+
+    return new Observable<IntersectionObserverEntry[]>(subscriber => {
       const intersectionObserver = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
-        for (let entry of entries) {
-          if (entry.target === target) {
-            subscriber.next(entry);
-            break;
-          }
-        }
+        subscriber.next(entries);
       }, options ?? this.defaultOptions);
 
       subscriber.add(() => {
-        intersectionObserver.unobserve(target);
+        for(const target of targets) {
+          intersectionObserver.unobserve(target);
+        }
+
         intersectionObserver.disconnect();
       });
 
-      intersectionObserver.observe(target);
+      for(const target of targets){
+        intersectionObserver.observe(target);
+      }
     });
   }
 }
