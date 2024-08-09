@@ -1,6 +1,6 @@
 {
   "name": "@rxjs-toolkit/intersection-observer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": "git+https://github.com/rxjs-toolkit/intersection-observer.git",
   "author": "Lucas Dornelas",
   "license": "MIT",
