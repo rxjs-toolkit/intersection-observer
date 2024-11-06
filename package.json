@@ -1,6 +1,6 @@
 {
   "name": "@rxjs-toolkit/intersection-observer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": "git+https://github.com/rxjs-toolkit/intersection-observer.git",
   "author": "Lucas Dornelas",
   "license": "MIT",
@@ -19,13 +19,14 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
+      "node": "./dist/cjs/index.js",
       "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js"
+      "default": "./dist/esm/index.js"
     }
   },
   "main": "dist/cjs/index.js",
   "module": "./dist/esm/index.js",
-  "es2015": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {
     "format": "prettier --write . && format-imports src && format-imports tests",
